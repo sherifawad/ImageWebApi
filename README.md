@@ -9,6 +9,7 @@ Node, Express, TypeScript, Jasmine, Sharp
 ## Usage
 
 ```sh
+npm run dev
 http://localhost:7010/api/images/
 http://localhost:7010/api/images?filename=1028.png&width=200&height=200
 ```
