@@ -1,17 +1,17 @@
+import Express from "express";
 import { getImage } from "../controllers/images";
 import validatorMiddleWare from "../middlewares/validatorMiddleWare";
 import { ImagesValidator } from "../validator/ImagesValidator";
-import Express from "express";
 
-//create Router() instance
+// create Router() instance
 const imagesRouter = Express.Router();
-//image get route
+// image get route
 imagesRouter.get(
-	//route
+	// route
 	"/",
-	//express validation rules
+	// express validation rules
 	ImagesValidator.checkReadImage,
-	//middleware validation
+	// middleware validation
 	validatorMiddleWare,
 	// get image controller
 	getImage

@@ -5,13 +5,12 @@ describe("Test sharp service", () => {
 	const filename = "1028.png";
 	const input = path.resolve(`./images/full/${filename}`);
 	const output: string = path.resolve(`./images/thumb/${filename}`);
-	const width: number = 200;
-	const height: number = 200;
+	const width = 200;
+	const height = 200;
 
 	describe("Test image processing service when", () => {
 		it("Resolve error", async () => {
-			const result = async () =>
-				await imageResizing("", output, width, height);
+			const result = () => imageResizing("", output, width, height);
 			await expectAsync(result()).toBeResolved();
 		});
 

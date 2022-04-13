@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import imagesRouter from "./images";
+
 const routes = express.Router();
 
 routes.get("/", (_req: Request, res: Response): void => {

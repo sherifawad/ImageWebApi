@@ -4,59 +4,62 @@ import path from "path";
 import { imageResizing } from "../services/imageProcessing";
 
 // getting all posts
-const getImage = async (req: Request, res: Response) => {
+const getImage = async (
+	req: Request,
+	res: Response
+): Promise<void | Response> => {
 	try {
 		// get queries
 		// const { filename, width, height } = req.query;
-		//remove WhiteSpaces
+		// remove WhiteSpaces
 		const filename = (req.query.filename as string).replace(/\s/g, "");
 		const width = (req.query.width as string).replace(/\s/g, "");
 		const height = (req.query.height as string).replace(/\s/g, "");
 
-		//get source image path
-		const source_path: string | undefined = path.resolve(
+		// get source image path
+		const sourcePath: string | undefined = path.resolve(
 			`./images/full/${filename}`
 		);
-		//check if source image exists or throw error
-		if (!existsSync(source_path)) {
-			throw new Error(`Invalid input path: ${source_path}`);
+		// check if source image exists or throw error
+		if (!existsSync(sourcePath)) {
+			throw new Error(`Invalid input path: ${sourcePath}`);
 		}
 
-		//get the target image path
-		//added width and height as user may need more dimensions for an image
-		const target_path: string | undefined = path.resolve(
+		// get the target image path
+		// added width and height as user may need more dimensions for an image
+		const targetPath: string | undefined = path.resolve(
 			`./images/thumb/thumb_${width}_${height}_${filename}`
 		);
-		//if target image exist return image
+		// if target image exist return image
 		// else continue
-		if (existsSync(target_path)) {
-			return res.status(200).sendFile(target_path);
+		if (existsSync(targetPath)) {
+			return res.status(200).sendFile(targetPath);
 		}
 
 		// resize image service
 		const result = await imageResizing(
-			source_path,
-			target_path,
-			//parse string query to int
-			parseInt(width as string),
-			//parse string query to int
-			parseInt(height as string)
+			sourcePath,
+			targetPath,
+			// parse string query to int
+			parseInt(width as string, 10),
+			// parse string query to int
+			parseInt(height as string, 10)
 		);
 
 		if ("error" in result) {
 			// if there are error throw
 			throw result.error as Error;
 		}
-		//if no error return target_path
-		return res.status(200).sendFile(target_path);
+		// if no error return targetPath
+		return res.status(200).sendFile(targetPath);
 	} catch (error) {
-		//check if instance of error not throw string but => throw new Error("")
+		// check if instance of error not throw string but => throw new Error("")
 		if (error instanceof Error) {
 			return res.status(400).json({
 				message: `${error.message}`
 			});
 		}
-		//error is string
+		// error is string
 		return res.status(500).json({
 			message: `${error}`
 		});

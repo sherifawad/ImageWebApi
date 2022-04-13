@@ -8,7 +8,7 @@ export const imageResizing = async (
 	// ): Promise<unknown> | Promise<sharp.OutputInfo> => {
 ): Promise<sharp.OutputInfo | { error: unknown }> => {
 	try {
-		//validate input parameters
+		// validate input parameters
 		if (
 			input.length < 1 ||
 			output.length < 1 ||
@@ -17,7 +17,7 @@ export const imageResizing = async (
 		) {
 			throw new Error("Invalid parameters");
 		}
-		//return sharp.OutputInfo
+		// return sharp.OutputInfo
 		return await sharp(input).resize(width, height).toFile(output);
 	} catch (error: unknown) {
 		// return error if exist

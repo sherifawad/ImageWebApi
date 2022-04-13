@@ -5,7 +5,7 @@ const validatorMiddleWare = (
 	req: Request,
 	res: Response,
 	next: NextFunction
-) => {
+): void | Response => {
 	// validation errors array
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
@@ -13,7 +13,7 @@ const validatorMiddleWare = (
 		return res.status(400).json(errors.array()[0]);
 		// return res.status(400).json({ errors: errors.array() });
 	}
-	//pass the request to its next stage
+	// pass the request to its next stage
 	return next();
 };
 
